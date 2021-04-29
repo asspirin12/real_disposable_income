@@ -1,24 +1,23 @@
 {
-    "id": "FD499E35",
-    "path": "~/R/real_disposable_income/quarter_chart.R",
-    "project_path": "quarter_chart.R",
+    "id": "CAE0C90E",
+    "path": null,
+    "project_path": null,
     "type": "r_source",
     "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1619706348072.0,
+    "created": 1619708722434.0,
     "source_on_save": false,
     "relative_order": 1,
     "properties": {
-        "cursorPosition": "84,1",
-        "scrollLine": "71"
+        "tempName": "Untitled1"
     },
     "folds": "",
     "lastKnownWriteTime": 1619706929,
-    "encoding": "UTF-8",
+    "encoding": "",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1619706929075,
+    "last_content_update": 1619708722434,
     "read_only": false,
     "read_only_alternatives": []
 }

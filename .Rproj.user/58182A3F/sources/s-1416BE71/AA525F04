@@ -1,0 +1,24 @@
+{
+    "id": "AA525F04",
+    "path": "~/R/real_disposable_income/year_chart.R",
+    "project_path": "year_chart.R",
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1619708727943.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "cursorPosition": "21,0",
+        "scrollLine": "13"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1619708736,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1619708736476,
+    "read_only": false,
+    "read_only_alternatives": []
+}
