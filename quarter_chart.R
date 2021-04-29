@@ -1,0 +1,85 @@
+library(tidyverse)
+library(bbplot2)
+library(grDevices)
+library(lubridate)
+
+quarter <- read_csv("raw_data/реальные располагаемые доходы новые 2014-2020 - old + new methodology.csv") %>%
+  select(-quarter, -perc100) %>%
+  filter_all(any_vars(!is.na(.)))
+
+quarter <- 
+  quarter %>%
+  pivot_longer(cols = c("perc_oldMeth", "perc_newMeth"),
+               names_to = "methodology", 
+               values_to = "perc")
+
+quarter$methodology <- 
+  str_replace(quarter$methodology, "perc_oldMeth", "Старая методология")
+quarter$methodology <- 
+  str_replace(quarter$methodology, "perc_newMeth", "Новая методология")
+
+quarter$date <- as.Date(quarter$date, format = "%d/%m/%Y")
+
+quarter$methodology <- 
+  factor(quarter$methodology, 
+       levels = c("Старая методология", "Новая методология"))
+
+quarter$date <- ymd(quarter$date) - days(30)
+
+income_plot <-
+  quarter %>%
+  ggplot() +
+  annotate("rect", xmin=as.Date("2009-01-01"), xmax=as.Date("2009-12-31"), 
+           ymin=-Inf, ymax=Inf,alpha=.3) +
+  annotate("rect", xmin=as.Date("2011-01-01"), xmax=as.Date("2011-12-31"), 
+           ymin=-Inf, ymax=Inf,alpha=.3) +
+  annotate("rect", xmin=as.Date("2013-01-01"), xmax=as.Date("2013-12-31"), 
+           ymin=-Inf, ymax=Inf,alpha=.3) +
+  annotate("rect", xmin=as.Date("2015-01-15"), xmax=as.Date("2016-01-15"), 
+           ymin=-Inf, ymax=Inf,alpha=.3) +
+  annotate("rect", xmin=as.Date("2017-01-15"), xmax=as.Date("2018-01-15"), 
+           ymin=-Inf, ymax=Inf,alpha=.3) +
+  annotate("rect", xmin=as.Date("2019-01-31"), xmax=as.Date("2020-02-10"), 
+           ymin=-Inf, ymax=Inf,alpha=.3) +
+  annotate("rect", xmin=as.Date("2021-02-05"), xmax=as.Date("2022-01-31"), 
+           ymin=-Inf, ymax=Inf,alpha=.3) +
+  geom_bar(aes(x = date, y = perc, fill = methodology),
+           stat = "identity", position = "dodge") +
+  bbc_style() +
+  theme(
+    panel.grid.major.y = element_line(size = .3, color = "#dddddd")
+  ) +
+  scale_fill_manual(
+    values = c("#1380a1", "#FFA31E")
+  ) +
+  labs(
+    title = "Динамика реальных располагаемых\nдоходов россиян",
+    subtitle = "Данные по кварталам"
+  ) +
+  scale_y_continuous(
+    breaks = c(-8, -4, 0, 4, 8),
+    labels = c("-8%","-4%", "0", "+4%", "+8%")
+  ) +
+  scale_x_date(labels = c(
+    "2008",
+    "2010",
+    "2012",
+    "2014",
+    "2016",
+    "2018",
+    "2020"
+  ), breaks = c(
+    as.Date("2008-07-01", origin='1970-01-01'),
+    as.Date("2010-07-01", origin='1970-01-01'),
+    as.Date("2012-07-21", origin='1970-01-01'),
+    as.Date("2014-07-21", origin='1970-01-01'),
+    as.Date("2016-07-21", origin='1970-01-01'),
+    as.Date("2018-08-01", origin='1970-01-01'),
+    as.Date("2020-08-01", origin='1970-01-01')
+  ), expand = c(0,0)) 
+
+finalise_plot(
+  plot_name = income_plot,
+  save_filepath = "charts/income-nc.png",
+  source_name = "Источник: Росстат"
+)
